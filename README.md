@@ -73,26 +73,6 @@ npx react-native run-ios
 
 ## Project Structure
 
-```
-currency-converter-app/
-├── src/
-│   ├── components/
-│   │   ├── CurrencyInput/
-│   │   ├── CurrencyPicker/
-│   │   └── ErrorMessage/
-│   ├── screens/
-│   │   └── HomeScreen/
-│   ├── services/
-│   │   └── api/
-│   ├── utils/
-│   ├── constants/
-│   └── store/
-├── __tests__/
-├── android/
-├── ios/
-├── App.tsx
-└── package.json
-```
 
 ## Testing
 
