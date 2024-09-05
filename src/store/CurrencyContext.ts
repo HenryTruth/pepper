@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, ReactNode, useEffect, useCallback } from 'react';
+import React, { useState, ReactNode, useEffect, useCallback } from 'react';
 import { fetchExchangeRate } from '../services/api/exchangeRateApi';
 import { CurrencyContext, CurrencyContextType } from '../hooks/useCurrency';
 
