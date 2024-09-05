@@ -5,10 +5,12 @@ export interface CurrencyContextType {
     targetCurrency: string;
     amount: string;
     convertedAmount: string;
-    error: string;
+    error: string | null;
     setSourceCurrency: (currency: string) => void;
     setTargetCurrency: (currency: string) => void;
     setAmount: (amount: string) => void;
+    setConvertedAmount: (amount: string) => void;
+    setError: (error: string | null) => void;
   }
 
 export const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined);

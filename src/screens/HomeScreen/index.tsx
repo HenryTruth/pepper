@@ -1,28 +1,41 @@
-import React, { useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, Alert } from 'react-native';
 import CurrencyPicker from '../../components/CurrencyPicker';
 import CurrencyInput from '../../components/CurrencyInput';
 import ErrorMessage from '../../components/ErrorMessage';
 import { useCurrency } from '../../hooks/useCurrency';
 import { storeData, getData } from '../../utils/storage';
+import { checkNetworkConnectivity } from '../../utils/networkutilities';
+import { fetchExchangeRate } from '../../services/api/exchangeRateApi';
 
 const CURRENCIES = ['USD', 'EUR', 'GBP', 'CAD', 'NGN', 'JPY', 'AUD', 'CNY', 'INR', 'ZAR'];
 
 const HomeScreen: React.FC = () => {
+   
+  const [isLoading, setIsLoading] = useState(false);
   const {
     sourceCurrency,
     targetCurrency,
     amount,
     convertedAmount,
     error,
+    setError,
     setSourceCurrency,
     setTargetCurrency,
     setAmount,
+    setConvertedAmount,
   } = useCurrency();
 
   useEffect(() => {
     loadStoredPreferences();
   }, []);
+
+  useEffect(() => {
+    if (amount && sourceCurrency && targetCurrency) {
+      convertCurrency();
+    }
+  }, [amount, sourceCurrency, targetCurrency]);
+
 
   const loadStoredPreferences = async () => {
     const storedSourceCurrency = await getData('sourceCurrency');
@@ -31,6 +44,31 @@ const HomeScreen: React.FC = () => {
     if (storedSourceCurrency) setSourceCurrency(storedSourceCurrency);
     if (storedTargetCurrency) setTargetCurrency(storedTargetCurrency);
   };
+
+  const convertCurrency = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const isConnected = await checkNetworkConnectivity();
+      if (!isConnected) {
+        Alert.alert('No Internet Connection', 'Please check your network settings.');
+        return;
+      }
+
+      const rate = await fetchExchangeRate(sourceCurrency, targetCurrency);
+      const result = (parseFloat(amount) * rate).toFixed(2);
+      setConvertedAmount(result);
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError('An unknown error occurred');
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
 
   const handleSourceCurrencyChange = (currency: string) => {
     setSourceCurrency(currency);

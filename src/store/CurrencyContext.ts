@@ -14,7 +14,7 @@ export const CurrencyProvider: React.FC<CurrencyProviderProps> = ({ children }) 
   const [targetCurrency, setTargetCurrency] = useState<string>('EUR');
   const [amount, setAmount] = useState<string>('');
   const [convertedAmount, setConvertedAmount] = useState<string>('');
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState<string | null>('');
 
 
   
@@ -56,6 +56,8 @@ export const CurrencyProvider: React.FC<CurrencyProviderProps> = ({ children }) 
     setSourceCurrency,
     setTargetCurrency,
     setAmount,
+    setConvertedAmount,
+    setError
   };
 
   return React.createElement(
