@@ -1,84 +1,165 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Currency Converter App
 
-# Getting Started
+## Overview
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+This React Native application allows users to convert between multiple currencies using live exchange rates. It provides a user-friendly interface, supports persistent data storage, and implements error handling for a smooth user experience.
 
-## Step 1: Start the Metro Server
+## Features
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+- Support for 10 different currencies (USD, EUR, GBP, CAD, NGN, JPY, AUD, CNY, INR, ZAR)
+- Real-time currency conversion using up-to-date exchange rates
+- User-friendly interface with dropdown selectors for currencies
+- Persistent storage of user's last selected currencies
+- Offline support with cached exchange rates
+- Error handling for API failures and network issues
 
-To start Metro, run the following command from the _root_ of your React Native project:
+## Tech Stack
 
-```bash
-# using npm
-npm start
+- React Native
+- TypeScript
+- Axios for API calls
+- AsyncStorage for local data persistence
+- Jest and React Native Testing Library for testing
 
-# OR using Yarn
-yarn start
+## Prerequisites
+
+Before you begin, ensure you have met the following requirements:
+
+- Node.js (v14 or later)
+- npm (v6 or later)
+- React Native CLI
+- Xcode (for iOS development)
+- Android Studio (for Android development)
+
+## Installation
+
+1. Clone the repository:
+   ```
+   git clone https://github.com/your-username/currency-converter-app.git
+   cd currency-converter-app
+   ```
+
+2. Install the dependencies:
+   ```
+   npm install
+   ```
+
+3. iOS specific setup:
+   ```
+   cd ios && pod install && cd ..
+   ```
+
+4. Set up your API key:
+   - Sign up for an API key at [ExchangeRate-API](https://www.exchangerate-api.com/)
+   - Create a `.env` file in the root directory
+   - Add your API key to the `.env` file:
+     ```
+     API_KEY=your_api_key_here
+     ```
+
+## Running the App
+
+### For Android:
+
+```
+npx react-native run-android
 ```
 
-## Step 2: Start your Application
+### For iOS:
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
-
-### For Android
-
-```bash
-# using npm
-npm run android
-
-# OR using Yarn
-yarn android
+```
+npx react-native run-ios
 ```
 
-### For iOS
+## Project Structure
 
-```bash
-# using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
+```
+currency-converter-app/
+├── src/
+│   ├── components/
+│   │   ├── CurrencyInput/
+│   │   ├── CurrencyPicker/
+│   │   └── ErrorMessage/
+│   ├── screens/
+│   │   └── HomeScreen/
+│   ├── services/
+│   │   └── api/
+│   ├── utils/
+│   ├── constants/
+│   └── store/
+├── __tests__/
+├── android/
+├── ios/
+├── App.tsx
+└── package.json
 ```
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+## Testing
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+To run the tests:
 
-## Step 3: Modifying your App
+```
+npm test
+```
 
-Now that you have successfully run the app, let's modify it.
+## Building for Production
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+### Android
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+1. Generate a signing key:
+   ```
+   keytool -genkey -v -keystore my-release-key.keystore -alias my-key-alias -keyalg RSA -keysize 2048 -validity 10000
+   ```
 
-## Congratulations! :tada:
+2. Set up gradle variables:
+   - Place the `my-release-key.keystore` file under the `android/app` directory.
+   - Edit the file `~/.gradle/gradle.properties` and add the following:
+     ```
+     MYAPP_RELEASE_STORE_FILE=my-release-key.keystore
+     MYAPP_RELEASE_KEY_ALIAS=my-key-alias
+     MYAPP_RELEASE_STORE_PASSWORD=*****
+     MYAPP_RELEASE_KEY_PASSWORD=*****
+     ```
 
-You've successfully run and modified your React Native App. :partying_face:
+3. Build the app:
+   ```
+   cd android
+   ./gradlew assembleRelease
+   ```
 
-### Now what?
+The APK can then be found under `android/app/build/outputs/apk/release/app-release.apk`
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
+### iOS
 
-# Troubleshooting
+1. Open your project in Xcode by running `open ios/YourProjectName.xcworkspace`
+2. Select "Any iOS Device" as the build target
+3. Go to Product > Archive
+4. Follow the instructions to distribute your app
 
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+## Contributing
 
-# Learn More
+Contributions to the Currency Converter app are welcome. Please follow these steps:
 
-To learn more about React Native, take a look at the following resources:
+1. Fork the repository
+2. Create a new branch (`git checkout -b feature/AmazingFeature`)
+3. Make your changes
+4. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+5. Push to the branch (`git push origin feature/AmazingFeature`)
+6. Open a Pull Request
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
-# instashop-backend
-# pepper
-# pepper
-# pepper
-# pepper
+## License
+
+This project is licensed under the MIT License.
+
+## Contact
+
+Your Name - your.email@example.com
+
+Project Link: [https://github.com/your-username/currency-converter-app](https://github.com/your-username/currency-converter-app)
+
+## Acknowledgements
+
+- [ExchangeRate-API](https://www.exchangerate-api.com/)
+- [React Native](https://reactnative.dev/)
+- [Axios](https://axios-http.com/)
+- [AsyncStorage](https://react-native-async-storage.github.io/async-storage/)
